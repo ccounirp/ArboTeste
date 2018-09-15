@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button bCamera = findViewById(R.id.btnCamera);
         int gilmarViado = 24;
+        int meireGostosa = 69;
 
         bCamera.setOnClickListener(new View.OnClickListener() {
             @Override
