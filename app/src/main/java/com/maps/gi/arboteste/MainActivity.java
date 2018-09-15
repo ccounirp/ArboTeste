@@ -14,9 +14,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button bCamera = findViewById(R.id.btnCamera);
-        int gilmarViado = 24;
-        String Jessica = "minha";
-        String Lara = "hacked";
 
         bCamera.setOnClickListener(new View.OnClickListener() {
             @Override
