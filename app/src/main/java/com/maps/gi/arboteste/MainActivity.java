@@ -13,7 +13,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button bCamera = (Button)findViewById(R.id.btnCamera);
+        Button bCamera = findViewById(R.id.btnCamera);
+        int gilmarViado = 24;
 
         bCamera.setOnClickListener(new View.OnClickListener() {
             @Override
