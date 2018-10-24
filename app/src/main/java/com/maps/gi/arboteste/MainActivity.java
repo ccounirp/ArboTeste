@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button bCamera = findViewById(R.id.btnCamera);
+        Button bMapa = findViewById(R.id.btnMapa);
 
         bCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -21,6 +22,13 @@ public class MainActivity extends AppCompatActivity {
                 abrirCamera();
             }
         });
+        bMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirMapa();
+            }
+        });
+
     }
 
     public final void abrirCamera(){
@@ -28,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
         Intent camera = new Intent("android.media.action.IMAGE_CAPTURE");
         startActivity(camera);
 
+    }
+
+    public final void abrirMapa(){
+        Intent mapa = new Intent(this, MapsActivity.class);
+        startActivity(mapa);
     }
 
 }
