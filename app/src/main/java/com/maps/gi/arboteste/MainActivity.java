@@ -31,11 +31,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity {
 
     ImageView foto;
+    int indice;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationClient;
     private TextView txtNomePopular;
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onSuccess(Location location) {
                         if(location != null){
                             latitude.setText(location.toString());
+                            gravarCoordenada(location);
                             Log.d("LOCATION", location.toString());
                         }
 
@@ -118,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gravarRegistro(){
+        indice = 0;
         try {
             PreparedStatement pst = conexionCB().prepareStatement("INSERT INTO ARVORE_REGISTRO" +
                     "(NOME_POPULAR,NOME_CIENTIFICO,CPA,ALTURA_TRONCO,ALTURA_COPA,NOTA_RAIZ,NOTA_CAULE," +
@@ -138,10 +142,31 @@ public class MainActivity extends AppCompatActivity {
 
             pst.executeUpdate();
 
+            pst = conexionCB().prepareStatement("SELECT MAX(CODIGO) AS CODIGO FROM ARVORE_REGISTRO");
+            ResultSet rs;
+            rs = pst.executeQuery();
+            rs.next();
+            indice = Integer.parseInt(rs.getString("CODIGO"));
+            Toast.makeText(getApplicationContext(),"Codigo Arvore: " + Integer.toString(indice),Toast.LENGTH_LONG).show();
+
             Toast.makeText(getApplicationContext(),"Registro gravado com sucesso!",Toast.LENGTH_LONG).show();
 
         }catch (SQLException e){
             Toast.makeText(getApplicationContext(),"Ocorreu um erro ao gravar o registro: " + e.toString(),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void gravarCoordenada(Location location){
+        try {
+            PreparedStatement pst = conexionCB().prepareStatement("INSERT INTO ARVORE_COORDENADA VALUES (?,?)");
+            pst.setInt(1,indice);
+            pst.setString(2,location.toString());
+            pst.executeUpdate();
+
+            Toast.makeText(getApplicationContext(),"Coordenadas gravadas com sucesso!",Toast.LENGTH_LONG).show();
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"Ocorreu um erro ao gravar as coordenadas: " + e.toString(),Toast.LENGTH_LONG).show();
         }
     }
 
