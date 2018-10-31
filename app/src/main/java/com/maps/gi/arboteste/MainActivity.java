@@ -2,10 +2,12 @@ package com.maps.gi.arboteste;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Debug;
 import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
@@ -28,6 +30,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -52,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtDoencasPragPara;
     private TextView txtObservacoes;
 
+    private Location location;
+    private LocationManager locationManager;
+
+    private double longitude;
+    private double lat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         Button bCriar = findViewById(R.id.btnCriar);
         foto = findViewById(R.id.imgArvore);
         final EditText latitude = findViewById(R.id.idNomePopular);
+
+        longitude = 0.0;
+        lat = 0.0;
 
         associaComponentes();
 
@@ -85,7 +99,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                obterLocalizacao();
                 gravarRegistro();
+                gravarCoordenada();
+
 
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
@@ -94,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Location location) {
                         if(location != null){
-                            latitude.setText(location.toString());
-                            gravarCoordenada(location);
+                            //latitude.setText(location.toString());
+                            //gravarCoordenada(location);
                             Log.d("LOCATION", location.toString());
                         }
 
@@ -113,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://189.68.139.34;databaseName=Arbo;user=sa;password=epilef;");
+            conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://177.21.62.255;databaseName=Arbo;user=sa;password=epilef;");
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
         }
@@ -156,11 +173,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void gravarCoordenada(Location location){
+    /*public void gravarImagem(){
+        InputStream fis;
+        File file = new File(foto);
+        fis = new FileInputStream(foto);
         try {
-            PreparedStatement pst = conexionCB().prepareStatement("INSERT INTO ARVORE_COORDENADA VALUES (?,?)");
+
+            PreparedStatement ps = conexionCB().prepareStatement("INSERT INTO ARVORE_FOTO VALUES (?,?)");
+            ps.setInt(1, indice);
+            ps.setBinaryStream(2,foto);
+
+        }catch(Exception e){
+
+        }
+    }*/
+
+    public void gravarCoordenada(){
+        try {
+            PreparedStatement pst = conexionCB().prepareStatement("INSERT INTO ARVORE_COORDENADA " +
+                    "(ARVORE,COORDENADA,LONGITUDE,LATITUDE) VALUES (?,"+String.valueOf(lat)+" " +String.valueOf(longitude)+",?,?)");
             pst.setInt(1,indice);
-            pst.setString(2,location.toString());
+            pst.setString(2,String.valueOf(longitude));
+            pst.setString(3,String.valueOf(lat));
             pst.executeUpdate();
 
             Toast.makeText(getApplicationContext(),"Coordenadas gravadas com sucesso!",Toast.LENGTH_LONG).show();
@@ -209,5 +243,24 @@ public class MainActivity extends AppCompatActivity {
         txtNotaVitArv=(TextView) findViewById(R.id.idNotaVitArv);
         txtDoencasPragPara=(TextView) findViewById(R.id.idDoencasPragPara);
         txtObservacoes=(TextView) findViewById(R.id.idObservacoes);
+    }
+
+    public void obterLocalizacao() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+        } else {
+            locationManager = (LocationManager)
+                    getSystemService(Context.LOCATION_SERVICE);
+            location =
+                    locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+
+        if (location != null) {
+            longitude = location.getLongitude();
+            lat = location.getLatitude();
+            Toast.makeText(getApplicationContext(), "Longitude = " + String.valueOf(longitude) +
+                    " / Latitude = " + String.valueOf(lat), Toast.LENGTH_LONG).show();
+        }
     }
 }
