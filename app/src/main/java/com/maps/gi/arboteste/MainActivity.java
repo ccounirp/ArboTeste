@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.Debug;
 import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
@@ -30,6 +31,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -42,6 +45,8 @@ import java.sql.SQLException;
 public class MainActivity extends AppCompatActivity {
 
     ImageView foto;
+    Bitmap bitmap;
+
     int indice;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -102,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 obterLocalizacao();
                 gravarRegistro();
                 gravarCoordenada();
-
+                //gravarImagem();
 
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
@@ -173,25 +178,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*public void gravarImagem(){
-        InputStream fis;
-        File file = new File(foto);
-        fis = new FileInputStream(foto);
+    public void gravarImagem(){
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+        byte imagemBytes[] = stream.toByteArray();
         try {
 
-            PreparedStatement ps = conexionCB().prepareStatement("INSERT INTO ARVORE_FOTO VALUES (?,?)");
+            PreparedStatement ps = conexionCB().prepareStatement("INSERT INTO ARVORE_FOTO VALUES (?,"+imagemBytes.toString()+")");
             ps.setInt(1, indice);
-            ps.setBinaryStream(2,foto);
+            ps.executeUpdate();
 
         }catch(Exception e){
-
+            Toast.makeText(getApplicationContext(),"Erro: " + e.toString(),Toast.LENGTH_LONG).show();
         }
-    }*/
+    }
 
     public void gravarCoordenada(){
         try {
             PreparedStatement pst = conexionCB().prepareStatement("INSERT INTO ARVORE_COORDENADA " +
-                    "(ARVORE,COORDENADA,LONGITUDE,LATITUDE) VALUES (?,"+String.valueOf(lat)+" " +String.valueOf(longitude)+",?,?)");
+                    "(ARVORE,LONGITUDE,LATITUDE) VALUES (?,?,?)");
             pst.setInt(1,indice);
             pst.setString(2,String.valueOf(longitude));
             pst.setString(3,String.valueOf(lat));
@@ -213,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+        bitmap = (Bitmap)data.getExtras().get("data");
         foto.setImageBitmap(bitmap);
 
 
