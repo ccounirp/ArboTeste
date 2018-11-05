@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 obterLocalizacao();
                 gravarRegistro();
                 gravarCoordenada();
-                //gravarImagem();
+                gravarImagem();
 
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
@@ -193,10 +194,12 @@ public class MainActivity extends AppCompatActivity {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
         byte imagemBytes[] = stream.toByteArray();
+
         try {
 
-            PreparedStatement ps = conexionCB().prepareStatement("INSERT INTO ARVORE_FOTO VALUES (?,"+imagemBytes.toString()+")");
+            PreparedStatement ps = conexionCB().prepareStatement("INSERT INTO ARVORE_FOTO VALUES (?,?)");
             ps.setInt(1, indice);
+            ps.setBytes(2,imagemBytes);
             ps.executeUpdate();
 
         }catch(Exception e){
