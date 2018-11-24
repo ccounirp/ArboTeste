@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         ImageButton bCamera = findViewById(R.id.btnCamera);
         ImageButton bMapa = findViewById(R.id.btnMapa);
         ImageButton bCriar = findViewById(R.id.btnCriar);
-        ImageButton bListaArvores = findViewById(R.id.btnListaArvores);
         foto = findViewById(R.id.imgArvore);
         final EditText latitude = findViewById(R.id.idNomePopular);
 
@@ -91,12 +90,6 @@ public class MainActivity extends AppCompatActivity {
         requestPermissions();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        bListaArvores.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               abrirMenu();
-            }
-        });
 
         bCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
         bMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirMapa();
+                //Ao clicar neste botão, vai obter a coordenada atual
+                obterLocalizacao();
             }
         });
 
