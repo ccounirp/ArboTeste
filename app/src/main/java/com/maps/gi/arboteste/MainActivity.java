@@ -109,10 +109,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                obterLocalizacao();
-                gravarRegistro();
-                gravarCoordenada();
-                gravarImagem();
+                try {
+                    obterLocalizacao();
+                    gravarRegistro();
+                    gravarCoordenada();
+                    gravarImagem();
+                    Toast.makeText(getApplicationContext(), "Registro gravado com sucesso!",Toast.LENGTH_LONG).show();
+                }catch (Exception e){
+
+                }
 
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
@@ -140,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://177.21.62.255;databaseName=Arbo;user=sa;password=epilef;");
+            conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://199.192.207.158;databaseName=Arbo;user=sa;password=@900Doletas;");
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
         }
