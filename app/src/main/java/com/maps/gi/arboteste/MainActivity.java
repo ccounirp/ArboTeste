@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     private double longitude;
     private double lat;
 
+    private boolean loc = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 abrirCamera();
             }
         });
+
         bMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,14 +112,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                try {
-                    obterLocalizacao();
-                    gravarRegistro();
-                    gravarCoordenada();
-                    gravarImagem();
-                    Toast.makeText(getApplicationContext(), "Registro gravado com sucesso!",Toast.LENGTH_LONG).show();
-                }catch (Exception e){
+                if(loc) {
+                    try {
+                        gravarRegistro();
+                        gravarCoordenada();
+                        gravarImagem();
+                        Toast.makeText(getApplicationContext(), "Registro gravado com sucesso!", Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
 
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(),"Clique em obter localização e tente gravar novamente",Toast.LENGTH_LONG).show();
                 }
 
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -215,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
             pst.setString(3,String.valueOf(lat));
             pst.executeUpdate();
 
-            Toast.makeText(getApplicationContext(),"Coordenadas gravadas com sucesso!",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"Coordenadas gravadas com sucesso!",Toast.LENGTH_LONG).show();
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"Ocorreu um erro ao gravar as coordenadas: " + e.toString(),Toast.LENGTH_LONG).show();
@@ -285,5 +291,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Longitude = " + String.valueOf(longitude) +
                     " / Latitude = " + String.valueOf(lat), Toast.LENGTH_LONG).show();
         }
+        loc = true;
     }
 }
