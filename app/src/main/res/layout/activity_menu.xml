@@ -11,11 +11,13 @@
         android:id="@+id/btnAbrirMapaMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
-        android:layout_marginTop="256dp"
+        android:layout_marginTop="188dp"
         android:background="@null"
         android:src="@mipmap/icone_mapa"
+        app:layout_constraintBottom_toTopOf="@+id/btnCadastroArvores"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
