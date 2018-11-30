@@ -107,12 +107,14 @@
                 android:id="@+id/idDanoCalcada"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:text="Existem danos na calçada?" />
 
             <RadioButton
                 android:id="@+id/idConflitoRede"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:text="Existe conflito com rede elétrica?" />
 
             <RadioGroup
@@ -124,6 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
                     android:text="Copa Normal" />
 
                 <RadioButton
@@ -131,6 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
                     android:text="Copa Mediamente Deformada" />
 
                 <RadioButton
@@ -138,6 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
                     android:text="Copa Deformada" />
 
             </RadioGroup>

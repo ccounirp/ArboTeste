@@ -5,6 +5,8 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:theme="@style/AppThemeNoTitle"
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="25dp">
 
@@ -64,7 +66,7 @@
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@mipmap/camerabuttonblack" />
+        app:srcCompat="@mipmap/icone_camera" />
 
     <ImageButton
         android:id="@+id/btnMapa"
@@ -79,7 +81,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnCriar"
         app:layout_constraintStart_toEndOf="@+id/btnCamera"
-        app:srcCompat="@mipmap/mapbutton" />
+        app:srcCompat="@mipmap/icone_coordenada" />
 
     <ImageButton
         android:id="@+id/btnCriar"
@@ -91,6 +93,6 @@
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@mipmap/savetree" />
+        app:srcCompat="@mipmap/icone_salvar" />
 
 </android.support.constraint.ConstraintLayout>
