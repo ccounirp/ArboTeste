@@ -2,7 +2,6 @@ package com.maps.gi.arboteste;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,8 +19,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -74,17 +71,12 @@ public class MainActivity extends AppCompatActivity {
     private double longitude;
     private double lat;
 
-
+    private boolean loc = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         ImageButton bCamera = findViewById(R.id.btnCamera);
         ImageButton bMapa = findViewById(R.id.btnMapa);
@@ -107,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 abrirCamera();
             }
         });
+
         bMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,14 +112,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                try {
-                    obterLocalizacao();
-                    gravarRegistro();
-                    gravarCoordenada();
-                    gravarImagem();
-                    Toast.makeText(getApplicationContext(), "Registro gravado com sucesso!",Toast.LENGTH_LONG).show();
-                }catch (Exception e){
+                if(loc) {
+                    try {
+                        gravarRegistro();
+                        gravarCoordenada();
+                        gravarImagem();
+                        Toast.makeText(getApplicationContext(), "Registro gravado com sucesso!", Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
 
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(),"Clique em obter localização e tente gravar novamente",Toast.LENGTH_LONG).show();
                 }
 
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -225,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
             pst.setString(3,String.valueOf(lat));
             pst.executeUpdate();
 
-            Toast.makeText(getApplicationContext(),"Coordenadas gravadas com sucesso!",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"Coordenadas gravadas com sucesso!",Toast.LENGTH_LONG).show();
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"Ocorreu um erro ao gravar as coordenadas: " + e.toString(),Toast.LENGTH_LONG).show();
@@ -295,5 +291,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Longitude = " + String.valueOf(longitude) +
                     " / Latitude = " + String.valueOf(lat), Toast.LENGTH_LONG).show();
         }
+        loc = true;
     }
 }
