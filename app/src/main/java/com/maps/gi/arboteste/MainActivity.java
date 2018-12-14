@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -74,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtNotaVitArv;
     private TextView txtDoencasPragPara;
     private TextView txtObservacoes;
+    private CheckBox cbDanoCalcada;
+    private CheckBox cbConflitoRede;
+    private TextView txtDiametro;
 
     private Location location;
     private LocationManager locationManager;
@@ -190,6 +194,9 @@ public class MainActivity extends AppCompatActivity {
             pst.setString(9,txtNotaVitArv.getText().toString());
             pst.setString(10,txtDoencasPragPara.getText().toString());
             pst.setString(11,txtObservacoes.getText().toString());
+            //pst.setString( 12, cbDanoCalcada
+            //pst.setString( 13, cbConflitoRede
+            //pst.setString( 14, txtDiametro
 
             pst.executeUpdate();
 
@@ -284,9 +291,13 @@ public class MainActivity extends AppCompatActivity {
         txtNotaVitArv=(TextView) findViewById(R.id.idNotaVitArv);
         txtDoencasPragPara=(TextView) findViewById(R.id.idDoencasPragPara);
         txtObservacoes=(TextView) findViewById(R.id.idObservacoes);
+        cbDanoCalcada= (CheckBox) findViewById(R.id.idDanoCalcada);
+        cbConflitoRede= (CheckBox) findViewById(R.id.idConflitoRede);
+        txtDiametro= (TextView) findViewById(R.id.idDiametro);
     }
 
     public void obterLocalizacao() {
+        //Aplicativo checa se tem a permissão
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {

@@ -15,7 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/idNomePopular"
@@ -23,7 +24,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nome Popular"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
                 android:id="@+id/idNomeCientifico"
@@ -31,15 +33,17 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nome Cientifico"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
                 android:id="@+id/idCpa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="CPA"
-                android:inputType="textPersonName" />
+                android:hint="CAP"
+                android:inputType="textPersonName"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
                 android:id="@+id/idAlturaTronco"
@@ -47,7 +51,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Altura do Tronco"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
                 android:id="@+id/idAlturaCopa"
@@ -55,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Altura da Copa"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
                 android:id="@+id/idNotaRaiz"
@@ -63,7 +69,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nota da Raiz"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
                 android:id="@+id/idNotaCaule"
@@ -71,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nota do Caule"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
                 android:id="@+id/idVigorCopa"
@@ -79,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Vigor da Copa (Nota)"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <View
                 android:id="@+id/divider"
@@ -93,28 +102,48 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nota da Vitalidade da Árvore"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
                 android:id="@+id/idDoencasPragPara"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:ems="10"
                 android:hint="Nota de Doenças, Pragas e Parasitas"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
-            <RadioButton
+            <EditText
+                android:id="@+id/idObservacoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Observações Adicionais"
+                android:inputType="textMultiLine"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
+
+            <EditText
+                android:id="@+id/idDiametro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Diâmetro = CAP / 3,14"
+                android:inputType="textPersonName"
+                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
+
+            <CheckBox
                 android:id="@+id/idDanoCalcada"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:text="Existem danos na calçada?" />
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/idConflitoRede"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:text="Existe conflito com rede elétrica?" />
 
             <RadioGroup
@@ -126,35 +155,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/white"
-                    android:text="Copa Normal" />
+                    android:text="Copa Normal"
+                     />
 
                 <RadioButton
                     android:id="@+id/idCopaMedDef"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/white"
-                    android:text="Copa Mediamente Deformada" />
+                    android:text="Copa Mediamente Deformada"
+                     />
 
                 <RadioButton
                     android:id="@+id/idCopaDef"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/white"
-                    android:text="Copa Deformada" />
+                    android:text="Copa Deformada"
+                     />
 
             </RadioGroup>
 
-            <EditText
-                android:id="@+id/idObservacoes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Observações Adicionais"
-                android:inputType="textMultiLine" />
 
         </LinearLayout>
     </ScrollView>
