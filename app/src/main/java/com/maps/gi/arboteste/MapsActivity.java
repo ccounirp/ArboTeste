@@ -3,10 +3,12 @@ package com.maps.gi.arboteste;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -20,6 +22,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -73,5 +78,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1
         );
+    }
+
+    public Connection conexionCB(){
+        Connection conexion=null;
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
+            conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://199.192.207.158;databaseName=Arbo;user=sa;password=@900Doletas;");
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return conexion;
     }
 }
