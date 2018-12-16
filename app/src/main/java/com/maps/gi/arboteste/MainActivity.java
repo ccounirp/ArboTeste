@@ -289,7 +289,6 @@ public class MainActivity extends AppCompatActivity {
             pst.setString(3,String.valueOf(lat));
             pst.executeUpdate();
 
-            //Toast.makeText(getApplicationContext(),"Coordenadas gravadas com sucesso!",Toast.LENGTH_LONG).show();
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"Ocorreu um erro ao gravar as coordenadas: " + e.toString(),Toast.LENGTH_LONG).show();
