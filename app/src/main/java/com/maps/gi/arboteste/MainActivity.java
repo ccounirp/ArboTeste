@@ -17,8 +17,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         foto = findViewById(R.id.imgArvore);
         final EditText latitude = findViewById(R.id.idNomePopular);
 
+
         longitude = 0.0;
         lat = 0.0;
 
@@ -131,38 +134,82 @@ public class MainActivity extends AppCompatActivity {
         bCriar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String nomePopular = txtNomePopular.getText().toString();
+                String nomeCientifico = txtNomeCientifico.getText().toString();
 
-                if(loc) {
-                    try {
-                        gravarRegistro();
-                        gravarCoordenada();
-                        gravarImagem();
-                        Toast.makeText(getApplicationContext(), "Registro gravado com sucesso!", Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
+                if (nomePopular.equals("") || nomePopular == null || nomeCientifico.equals("") || nomeCientifico == null) {
+                    validationCamp();
+                } else {
 
-                    }
-                }else{
-                    Toast.makeText(getApplicationContext(),"Clique em obter localização e tente gravar novamente",Toast.LENGTH_LONG).show();
-                }
+                    if (loc) {
+                        try {
+                            gravarRegistro();
+                            gravarCoordenada();
+                            gravarImagem();
+                            Toast.makeText(getApplicationContext(), "Registro gravado com sucesso!", Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
 
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if(location != null){
-                            //latitude.setText(location.toString());
-                            //gravarCoordenada(location);
-                            Log.d("LOCATION", location.toString());
                         }
-
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Clique em obter localização e tente gravar novamente", Toast.LENGTH_LONG).show();
                     }
-                });
+
+                    if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                    mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                //latitude.setText(location.toString());
+                                //gravarCoordenada(location);
+                                Log.d("LOCATION", location.toString());
+                            }
+
+                        }
+                    });
+                }
             }
+
         });
 
 
+        txtDiametro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtDiametro.setError("Toque duplo para atualizar o Diametro. Caso o CAP for mudado, toque duplo para atualizar o Diametro.");
+                if(txtCpa.equals("") || txtCpa.equals(null)){
+                    txtCpa.setError("Para estabelecer o Diametro automatico, deve-se informar um valor para o CAP.");
+                }
+                else {
+                    try{
+                        String capString = txtCpa.getText().toString().replace(",",".");
+                        float cap = Float.parseFloat(capString);
+                        float diametro = (float) (cap / 3.14);
+                        String diametroString = String.valueOf(diametro);
+                        txtDiametro.setText(diametroString);
+                    } catch (Exception ex){
+                        txtCpa.setError("Para estabelecer o Diametro automatico, deve-se informar um valor para o CAP.");
+                    }
+
+                }
+            }
+        });
+
+    }
+
+    public void validationCamp(){
+        String nomePopular = txtNomePopular.getText().toString();
+        String nomeCientifico = txtNomeCientifico.getText().toString();
+
+        if(nomePopular.equals("") || nomePopular == null)
+        {
+            txtNomePopular.setError("O nome popular é necessário");
+        }
+
+        if(nomeCientifico.equals("") || nomeCientifico == null){
+            txtNomeCientifico.setError("O nome cientifico é necessário");
+        }
     }
 
     public Connection conexionCB(){
@@ -180,41 +227,42 @@ public class MainActivity extends AppCompatActivity {
 
     public void gravarRegistro(){
         indice = 0;
-        try {
-            PreparedStatement pst = conexionCB().prepareStatement("INSERT INTO ARVORE_REGISTRO" +
-                    "(NOME_POPULAR,NOME_CIENTIFICO,CPA,ALTURA_TRONCO,ALTURA_COPA,NOTA_RAIZ,NOTA_CAULE," +
-                    "VIGOR_COPA,NOTA_VITALIDADE,NOTA_DOENCAS,OBS) " +
-                    "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            try {
+                PreparedStatement pst = conexionCB().prepareStatement("INSERT INTO ARVORE_REGISTRO" +
+                        "(NOME_POPULAR,NOME_CIENTIFICO,CPA,ALTURA_TRONCO,ALTURA_COPA,NOTA_RAIZ,NOTA_CAULE," +
+                        "VIGOR_COPA,NOTA_VITALIDADE,NOTA_DOENCAS,OBS) " +
+                        "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
-            pst.setString(1,txtNomePopular.getText().toString());
-            pst.setString(2,txtNomeCientifico.getText().toString());
-            pst.setString(3,txtCpa.getText().toString());
-            pst.setString(4,txtAlturaTronco.getText().toString());
-            pst.setString(5,txtAlturaCopa.getText().toString());
-            pst.setString(6,txtNotaRaiz.getText().toString());
-            pst.setString(7,txtNotaCaule.getText().toString());
-            pst.setString(8,txtVigorCopa.getText().toString());
-            pst.setString(9,txtNotaVitArv.getText().toString());
-            pst.setString(10,txtDoencasPragPara.getText().toString());
-            pst.setString(11,txtObservacoes.getText().toString());
-            //pst.setString( 12, cbDanoCalcada
-            //pst.setString( 13, cbConflitoRede
-            //pst.setString( 14, txtDiametro
+                pst.setString(1, txtNomePopular.getText().toString());
+                pst.setString(2, txtNomeCientifico.getText().toString());
+                pst.setString(3, txtCpa.getText().toString().replace(",", "."));
+                pst.setString(4, txtAlturaTronco.getText().toString().replace(",", "."));
+                pst.setString(5, txtAlturaCopa.getText().toString().replace(",", "."));
+                pst.setString(6, txtNotaRaiz.getText().toString());
+                pst.setString(7, txtNotaCaule.getText().toString());
+                pst.setString(8, txtVigorCopa.getText().toString());
+                pst.setString(9, txtNotaVitArv.getText().toString());
+                pst.setString(10, txtDoencasPragPara.getText().toString());
+                pst.setString(11, txtObservacoes.getText().toString());
+                //pst.setString( 12, cbDanoCalcada
+                //pst.setString( 13, cbConflitoRede
+                //pst.setString( 14, txtDiametro
 
-            pst.executeUpdate();
+                pst.executeUpdate();
 
-            pst = conexionCB().prepareStatement("SELECT MAX(CODIGO) AS CODIGO FROM ARVORE_REGISTRO");
-            ResultSet rs;
-            rs = pst.executeQuery();
-            rs.next();
-            indice = Integer.parseInt(rs.getString("CODIGO"));
-            Toast.makeText(getApplicationContext(),"Codigo Arvore: " + Integer.toString(indice),Toast.LENGTH_LONG).show();
+                pst = conexionCB().prepareStatement("SELECT MAX(CODIGO) AS CODIGO FROM ARVORE_REGISTRO");
+                ResultSet rs;
+                rs = pst.executeQuery();
+                rs.next();
+                indice = Integer.parseInt(rs.getString("CODIGO"));
+                Toast.makeText(getApplicationContext(), "Codigo Arvore: " + Integer.toString(indice), Toast.LENGTH_LONG).show();
 
-            Toast.makeText(getApplicationContext(),"Registro gravado com sucesso!",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Registro gravado com sucesso!", Toast.LENGTH_LONG).show();
 
-        }catch (SQLException e){
-            Toast.makeText(getApplicationContext(),"Ocorreu um erro ao gravar o registro: " + e.toString(),Toast.LENGTH_LONG).show();
-        }
+            } catch (SQLException e) {
+                Toast.makeText(getApplicationContext(), "Ocorreu um erro ao gravar o registro: " + e.toString(), Toast.LENGTH_LONG).show();
+            }
+
     }
 
     public void gravarImagem(){
@@ -297,6 +345,12 @@ public class MainActivity extends AppCompatActivity {
         cbDanoCalcada= (CheckBox) findViewById(R.id.idDanoCalcada);
         cbConflitoRede= (CheckBox) findViewById(R.id.idConflitoRede);
         txtDiametro= (TextView) findViewById(R.id.idDiametro);
+
+        txtNotaRaiz.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "5")});
+        txtNotaCaule.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "5")});
+        txtVigorCopa.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "5")});
+        txtNotaVitArv.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "5")});
+        txtDoencasPragPara.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "3")});
     }
 
     public void obterLocalizacao() {

@@ -42,7 +42,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="CAP"
-                android:inputType="textPersonName"
+                android:inputType="number"
+                android:digits="0123456789.,"
                 android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
@@ -52,6 +53,7 @@
                 android:ems="10"
                 android:hint="Altura do Tronco"
                 android:inputType="number"
+                android:digits="0123456789.,"
                 android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
@@ -61,6 +63,7 @@
                 android:ems="10"
                 android:hint="Altura da Copa"
                 android:inputType="number"
+                android:digits="0123456789.,"
                 android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
@@ -70,6 +73,7 @@
                 android:ems="10"
                 android:hint="Nota da Raiz"
                 android:inputType="number"
+                android:numeric="integer"
                 android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
@@ -131,7 +135,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Diâmetro = CAP / 3,14"
-                android:inputType="textPersonName"
+                android:inputType="number"
+                android:digits="0123456789.,"
                 android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <CheckBox
