@@ -55,6 +55,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
     private double longitude;
     private double lat;
+
+    private ResultSet rs;
 
     private boolean loc = false;
 
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://199.192.207.158;databaseName=Arbo;user=sa;password=@900Doletas;");
+            conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://177.21.62.255;databaseName=Arbo;user=sa;password=epilef;");
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
         }
@@ -319,4 +322,6 @@ public class MainActivity extends AppCompatActivity {
         }
         loc = true;
     }
+
+
 }

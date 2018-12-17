@@ -155,24 +155,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Copa Normal"
-                     />
+                    android:text="Copa Normal" />
 
                 <RadioButton
                     android:id="@+id/idCopaMedDef"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Copa Mediamente Deformada"
-                     />
+                    android:text="Copa Mediamente Deformada" />
 
                 <RadioButton
                     android:id="@+id/idCopaDef"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Copa Deformada"
-                     />
+                    android:text="Copa Deformada" />
 
             </RadioGroup>
 
