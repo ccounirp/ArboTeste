@@ -116,7 +116,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                  marker = new MarkerOptions();
                  marker.position(position);
                  marker.title(rs.getString("ARVORE"));
-               
+
                  marker.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icone_marcador));
                  map.addMarker(marker);
                 //mMap.addMarker(new MarkerOptions().position(myLocation).title("Nome Popular")
