@@ -230,8 +230,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 PreparedStatement pst = conexionCB().prepareStatement("INSERT INTO ARVORE_REGISTRO" +
                         "(NOME_POPULAR,NOME_CIENTIFICO,CPA,ALTURA_TRONCO,ALTURA_COPA,NOTA_RAIZ,NOTA_CAULE," +
-                        "VIGOR_COPA,NOTA_VITALIDADE,NOTA_DOENCAS,OBS) " +
-                        "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                        "VIGOR_COPA,NOTA_VITALIDADE,NOTA_DOENCAS,OBS,DANO_CALCADA,CONF_ELETRICA,DIAMETRO) " +
+                        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
                 pst.setString(1, txtNomePopular.getText().toString());
                 pst.setString(2, txtNomeCientifico.getText().toString());
@@ -244,9 +244,17 @@ public class MainActivity extends AppCompatActivity {
                 pst.setString(9, txtNotaVitArv.getText().toString());
                 pst.setString(10, txtDoencasPragPara.getText().toString());
                 pst.setString(11, txtObservacoes.getText().toString());
-                //pst.setString( 12, cbDanoCalcada
-                //pst.setString( 13, cbConflitoRede
-                //pst.setString( 14, txtDiametro
+                if(cbDanoCalcada.isChecked()){
+                    pst.setString( 12,"S");
+                }else{
+                    pst.setString(12,"N");
+                }
+                if(cbConflitoRede.isChecked()){
+                    pst.setString(13,"S");
+                }else{
+                    pst.setString(13,"N");
+                }
+                pst.setString(14,txtDiametro.getText().toString().replace(",","."));
 
                 pst.executeUpdate();
 

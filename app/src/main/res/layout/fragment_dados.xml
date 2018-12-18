@@ -40,30 +40,30 @@
                 android:id="@+id/idCpa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="0123456789.,"
                 android:ems="10"
                 android:hint="CAP"
                 android:inputType="number"
-                android:digits="0123456789.,"
                 android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
                 android:id="@+id/idAlturaTronco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="0123456789.,"
                 android:ems="10"
                 android:hint="Altura do Tronco"
                 android:inputType="number"
-                android:digits="0123456789.,"
                 android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
                 android:id="@+id/idAlturaCopa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="0123456789.,"
                 android:ems="10"
                 android:hint="Altura da Copa"
                 android:inputType="number"
-                android:digits="0123456789.,"
                 android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <EditText
@@ -133,10 +133,10 @@
                 android:id="@+id/idDiametro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="0123456789.,"
                 android:ems="10"
                 android:hint="Diâmetro = CAP / 3,14"
                 android:inputType="number"
-                android:digits="0123456789.,"
                 android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
 
             <CheckBox

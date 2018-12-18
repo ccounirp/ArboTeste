@@ -109,7 +109,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         try {
 
-            PreparedStatement pstQuery = conexionCB().prepareStatement("SELECT ARVORE,LATITUDE,LONGITUDE FROM ARVORE_COORDENADA");
+            PreparedStatement pstQuery = conexionCB().prepareStatement("SELECT ARVORE,LATITUDE,LONGITUDE, AR.NOME_POPULAR AS NOME_POPULAR, AR.NOME_CIENTIFICO AS NOME_CIENTIFICO " +
+                    "FROM ARVORE_COORDENADA AC INNER JOIN ARVORE_REGISTRO AR ON AC.ARVORE=AR.CODIGO");
             ResultSet rs;
             rs = pstQuery.executeQuery();
             LatLng position;
@@ -121,7 +122,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                          Double.parseDouble(rs.getString("LONGITUDE")));
                  marker = new MarkerOptions();
                  marker.position(position);
-                 marker.title(rs.getString("ARVORE"));
+                 
+                 marker.title("Nome Popular: " + rs.getString("NOME_POPULAR"));
+                 marker.snippet("Nome Cientifico: " + rs.getString("NOME_CIENTIFICO"));
 
                  marker.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icone_marcador));
                  map.addMarker(marker);
